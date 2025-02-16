@@ -1,0 +1,1 @@
+cc -Werror -Wextra -Wall libxquick.c play.c so_long.c printmap.c checks.c -Llibft -lft -Lget_next_line -lget_next_line -lX11 -lXext -Lminilibx -lmlx  
