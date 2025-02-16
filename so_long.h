@@ -6,7 +6,7 @@
 /*   By: lzorzit <lzorzit@student.42firenze.it>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 16:58:09 by lzorzit           #+#    #+#             */
-/*   Updated: 2025/02/12 18:02:26 by lzorzit          ###   ########.fr       */
+/*   Updated: 2025/02/16 19:11:21 by lzorzit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ typedef struct	s_vars {
 	void	*win;
 	char	**map;
 	int		fdlines;
+	int		nmoves;
 }				t_vars;
 typedef struct	s_sprites {
 	void	*img;
@@ -49,6 +50,9 @@ typedef struct	s_sprites {
 	int		endian;
 }				t_sprites;
 
+int iscomplete(t_vars	*vars);
+int move(t_vars	*vars,int ver,int side);
+int movematr(t_vars	*vars,int y,int x,int ver,int side);
 void	put_square(t_data *img,int x,int y, int color);
 void	fast_pixel_put(t_data *data, int x, int y, int color);
 int	closewin(int keycode, t_vars *vars);

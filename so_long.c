@@ -6,7 +6,7 @@
 /*   By: lzorzit <lzorzit@student.42firenze.it>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/21 17:45:37 by lzorzit           #+#    #+#             */
-/*   Updated: 2025/02/12 19:41:18 by lzorzit          ###   ########.fr       */
+/*   Updated: 2025/02/16 19:00:24 by lzorzit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,28 +65,24 @@ int key_hook(int keycode, t_vars *vars)
 {
 	if (keycode == 'q')
 		closewin(keycode, vars);
-	// else if (keycode == W )
-	// 	move(vars, 1, 0);
-	// else if (keycode == A )
-	// 	move(vars, 0, -1);
-	// else if (keycode == S )
-	// 	move(vars, -1, 0);
-	// else if (keycode == D )
-	// 	move(vars, 0, +1);
+	else if (keycode == 's' )
+		move(vars, 1, 0);
+	else if (keycode == 'a' )
+		move(vars, 0, -1);
+	else if (keycode == 'w' )
+		move(vars, -1, 0);
+	else if (keycode == 'd' )
+		move(vars, 0, +1);
 	return (0);
 }
 int main ()
 {
 	t_vars	vars;
-	t_data	background;
 	int		fd;
 
+	vars.nmoves = 0;
 	vars.mlx = mlx_init();
 	vars.win = mlx_new_window(vars.mlx, 400, 400, "gaming");
-	background.img = mlx_new_image (vars.mlx, 400, 400);
-	background.addr = mlx_get_data_addr(background.img, &background.bits_per_pixel, &background.line_length, &background.endian);
-	put_square (&background, 400, 400, 0x0044e4f1);
-	mlx_put_image_to_window(vars.mlx, vars.win, background.img, 0, 0);
 	fd = open("map.txt", O_RDONLY);
 	vars.fdlines = filelen(fd);
 	if (vars.fdlines == 1)

@@ -18,7 +18,7 @@ int put_sprite(int pos, int row, void *mlx, void *mlx_win, char spritechar)
 		sprite.img = mlx_xpm_file_to_image(mlx, "floor.xpm", stupid, stupid);
 	if (spritechar == 'E')
 		sprite.img = mlx_xpm_file_to_image(mlx, "exit.xpm", stupid, stupid);
-	if (spritechar == 'P')
+	if (spritechar == 'P' || spritechar == 'R')
 		sprite.img = mlx_xpm_file_to_image(mlx, "character.xpm", stupid, stupid);
 	if (spritechar == 'C')
 		sprite.img = mlx_xpm_file_to_image(mlx, "collect.xpm", stupid, stupid);
