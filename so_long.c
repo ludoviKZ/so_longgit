@@ -6,7 +6,7 @@
 /*   By: lzorzit <lzorzit@student.42firenze.it>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/21 17:45:37 by lzorzit           #+#    #+#             */
-/*   Updated: 2025/02/16 19:00:24 by lzorzit          ###   ########.fr       */
+/*   Updated: 2025/02/17 19:13:49 by lzorzit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,12 +53,30 @@ char **readmap(int fd,int size)
 	fd = open("map.txt", O_RDONLY);
 	return(map);
 }
+void	free_matrix(t_vars *vars)
+{
+	int	i;
+
+	i = 0;
+	while (vars->map[i])
+		i++;
+	while (i >= 0)
+		free(vars->map[i--]);
+	free(vars->map);
+}
 
 int closewin(int keycode, t_vars *vars)
 {
+	int	clear;
+
+	clear = 0;
 	if (keycode == 1)
+	{
+		mlx_destroy_image(vars -> mlx, vars -> win);
 		mlx_destroy_window(vars -> mlx, vars -> win);
-	
+		mlx_destroy_display(vars -> mlx);
+	}
+	free_matrix(vars);
 	exit(EXIT_SUCCESS);
 }
 int key_hook(int keycode, t_vars *vars)
@@ -92,6 +110,7 @@ int main ()
 		return (0);
 	if (ismapvalid(vars.map, vars.fdlines) == 0)
 		return (0);
+	free_matrix(&vars);
 	vars.map = readmap(fd, vars.fdlines);
 	if (!vars.map)
 		return (0);

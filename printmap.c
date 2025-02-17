@@ -5,25 +5,22 @@
 #include "so_long.h"
 int put_sprite(int pos, int row, void *mlx, void *mlx_win, char spritechar)
 {
-	int	*	stupid;
+	int		stupid;
+	int		stupid2;
 	t_data	sprite;
 
-	stupid = (int*)malloc(sizeof(int) * (1));
-	*stupid = 0;
-	sprite.img = mlx_new_image (mlx, 16, 16);
-	sprite.addr = mlx_get_data_addr(sprite.img, &sprite.bits_per_pixel, &sprite.line_length, &sprite.endian);
 	if (spritechar == '1')
-		sprite.img = mlx_xpm_file_to_image(mlx, "wall.xpm", stupid, stupid);
-	if (spritechar == '0')
-		sprite.img = mlx_xpm_file_to_image(mlx, "floor.xpm", stupid, stupid);
-	if (spritechar == 'E')
-		sprite.img = mlx_xpm_file_to_image(mlx, "exit.xpm", stupid, stupid);
-	if (spritechar == 'P' || spritechar == 'R')
-		sprite.img = mlx_xpm_file_to_image(mlx, "character.xpm", stupid, stupid);
-	if (spritechar == 'C')
-		sprite.img = mlx_xpm_file_to_image(mlx, "collect.xpm", stupid, stupid);
+		sprite.img = mlx_xpm_file_to_image(mlx, WALL, &stupid, &stupid2);
+	else if (spritechar == '0')
+		sprite.img = mlx_xpm_file_to_image(mlx, "floor.xpm", &stupid, &stupid2);
+	else if (spritechar == 'E')
+		sprite.img = mlx_xpm_file_to_image(mlx, "exit.xpm", &stupid, &stupid2);
+	else if (spritechar == 'P' || spritechar == 'R')
+		sprite.img = mlx_xpm_file_to_image(mlx, "character.xpm", &stupid, &stupid2);
+	else if (spritechar == 'C')
+		sprite.img = mlx_xpm_file_to_image(mlx, "collect.xpm", &stupid, &stupid2);
 	mlx_put_image_to_window(mlx, mlx_win, sprite.img, (pos * 16), (row * 16));
-	free(stupid);
+	mlx_destroy_image(mlx, sprite.img);
 	return (0);
 }
 

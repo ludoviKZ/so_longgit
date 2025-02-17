@@ -6,7 +6,7 @@
 /*   By: lzorzit <lzorzit@student.42firenze.it>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 16:49:54 by lzorzit           #+#    #+#             */
-/*   Updated: 2025/02/12 17:17:56 by lzorzit          ###   ########.fr       */
+/*   Updated: 2025/02/17 16:33:47 by lzorzit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,48 +15,30 @@
 #include "get_next_line/get_next_line.h"
 #include "so_long.h"
 
-int fill (char **mapc,int line, int coll, int *got,int *end, int *change)
+int flood (char **mapc,t_flood *vars, int y, int x)
 {
-	change[0] = 0;
-	if (mapc[line][coll + 1] == '0' || mapc[line][coll + 1] == 'C' ||  mapc[line][coll + 1] == 'E' )
-	{
-		if ( mapc[line][coll + 1] == 'C')
-			got[0] ++;
-		if ( mapc[line][coll + 1] == 'E')
-			end[0] ++;
-		mapc[line][coll + 1] = '2';
-		change[0] ++;
-	}
-	if (mapc[line][coll - 1] == '0' || mapc[line][coll - 1] == 'C' ||  mapc[line][coll - 1] == 'E' )
-	{
-		if ( mapc[line][coll - 1] == 'C')
-			got[0] ++;
-		if ( mapc[line][coll - 1] == 'E')
-			end[0] ++;
-		mapc[line][coll - 1] = '2';
-		change[0] ++;
-	}
-	if (mapc[line + 1][coll] == '0' || mapc[line + 1][coll] == 'C' ||  mapc[line + 1][coll ] == 'E' )
-	{
-		if ( mapc[line + 1][coll] == 'C')
-			got[0] ++;
-		if ( mapc[line + 1][coll] == 'E')
-			end[0] ++;
-		mapc[line + 1] [coll] = '2';
-		change[0] ++;
-	}
-	if (mapc[line - 1][coll] == '0' || mapc[line - 1][coll] == 'C' ||  mapc[line - 1][coll ] == 'E' )
-	{
-		if ( mapc[line - 1][coll] == 'C')
-			got[0] ++;
-		if ( mapc[line - 1][coll] == 'E')
-			end[0] ++;
-		mapc[line - 1][coll] = '2';
-		change[0] ++;
-	}
+	if ( mapc[vars ->line + y][vars -> pos + x] == 'C')
+	vars ->got ++;
+	if ( mapc[vars ->line + y][vars -> pos + x] == 'E')
+		vars ->end ++;
+	mapc[vars -> line + y][vars -> pos + x] = '2';
+	vars -> change ++;
 	return (0);
 }
 
+int fill (char **mapc,t_flood *vars)
+{
+	vars -> change = 0;
+	if (mapc[vars ->line][vars ->pos + 1] == '0' || mapc[vars ->line][vars ->pos + 1] == 'C' ||  mapc[vars ->line][vars ->pos + 1] == 'E' )
+		flood (mapc, vars, 0, 1);
+	if (mapc[vars -> line][vars -> pos - 1] == '0' || mapc[vars ->line][vars -> pos - 1] == 'C' ||  mapc[vars ->line][vars -> pos - 1] == 'E' )
+		flood (mapc, vars, 0, -1);
+	if (mapc[vars ->line + 1][vars -> pos] == '0' || mapc[vars ->line + 1][vars -> pos] == 'C' ||  mapc[vars ->line + 1][vars -> pos ] == 'E' )
+		flood (mapc, vars, 1, 0);
+	if (mapc[vars ->line - 1][vars -> pos] == '0' || mapc[vars ->line - 1][vars -> pos] == 'C' ||  mapc[vars ->line - 1][vars -> pos ] == 'E' )
+		flood (mapc, vars, -1, 0);
+	return (0);
+}
 
 int floodfill (char **map, int coll)
 {
@@ -74,8 +56,8 @@ int floodfill (char **map, int coll)
 			while (map[vars.line][vars.pos] != '\0' )
 			{
 				if (map[vars.line][vars.pos] == '2' || map[vars.line][vars.pos] == 'P')
-					fill(map, vars.line, vars.pos, &vars.got, &vars.end, &vars.change);
-				pos ++;
+					fill(map, &vars);
+				vars.pos ++;
 			}
 			vars.line ++;	
 			vars.pos = 1;
@@ -151,8 +133,8 @@ int	ismapvalid (char **map, int fdlines)
 		if (row == 0 || row == (fdlines -2))
 			if (checkline ( map[row], 1, &items.star, &items.end, &items.coll) == 1)
 				return (0);
-		else if (checkline ( map[row], 0, &items.star, &items.end, &items.coll) == 1)
-					return (0);
+		if (row != 0 && row != (fdlines -2) && checkline ( map[row], 0, &items.star, &items.end, &items.coll) == 1)
+			return (0);
 		row ++;
 	}
 	if (items.star != 1 && items.coll < 1 && items.end != 1)

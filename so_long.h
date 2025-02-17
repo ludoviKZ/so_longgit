@@ -6,7 +6,7 @@
 /*   By: lzorzit <lzorzit@student.42firenze.it>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 16:58:09 by lzorzit           #+#    #+#             */
-/*   Updated: 2025/02/16 19:11:21 by lzorzit          ###   ########.fr       */
+/*   Updated: 2025/02/17 18:47:04 by lzorzit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,7 @@
 #ifndef SO_LONG_H
 # define SO_LONG_H
 
-# define ESC 53
-# define W 13
-# define A 0
-# define S 1
-# define D 2
+# define WALL "wall.xpm"
 
 
 typedef struct	s_flood {
@@ -37,7 +33,7 @@ typedef struct	s_data {
 	int		endian;
 }				t_data;
 typedef struct	s_mapitems {
-	int	start;
+	int	star;
 	int	end;
 	int coll;
 	int row;
@@ -58,6 +54,7 @@ typedef struct	s_sprites {
 	int		endian;
 }				t_sprites;
 
+int flood (char **mapc,t_flood *vars, int y, int x);
 int iscomplete(t_vars	*vars);
 int move(t_vars	*vars,int ver,int side);
 int movematr(t_vars	*vars,int y,int x,int ver,int side);
@@ -67,7 +64,7 @@ int	closewin(int keycode, t_vars *vars);
 int 	key_hook(int code, t_vars *mlxwin);
 int put_sprite(int pos, int row, void *mlx, void *mlx_win, char spritechar);
 int	printmap(void *mlx, void *mlx_win, char **map,int fdlines);
-int fill (char **map,int line, int coll, int *got,int *end, int *change);
+int fill (char **map,t_flood *vars);
 int floodfill (char **map, int coll);
 int	isequalsize(char **map, int fdlines, int *size);
 int checkline(char *str, int isfirst, int *start, int *end, int *collect);
