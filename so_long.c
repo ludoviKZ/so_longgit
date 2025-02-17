@@ -85,7 +85,7 @@ int main ()
 	vars.win = mlx_new_window(vars.mlx, 400, 400, "gaming");
 	fd = open("map.txt", O_RDONLY);
 	vars.fdlines = filelen(fd);
-	if (vars.fdlines == 1)
+	if (vars.fdlines < 4)
 		return (0);
 	vars.map = readmap(fd, vars.fdlines);
 	if (!vars.map)

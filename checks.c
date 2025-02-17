@@ -60,37 +60,29 @@ int fill (char **mapc,int line, int coll, int *got,int *end, int *change)
 
 int floodfill (char **map, int coll)
 {
-	int got;
-	int change;
-	int pos;
-	int line;
-	int end;
-	char **mapc;
-
-	mapc = map;
-	got = 0;
-	end = 0;
-	change = 1;
-	line = 1;
-	pos = 1;
-	while (change != 0)
+	t_flood vars;
+	vars.got = 0;
+	vars.end = 0;
+	vars.change = 1;
+	vars.line = 1;
+	vars.pos = 1;
+	while (vars.change != 0)
 	{
-		change = 0;
-		while (mapc[line] != 0)
+		vars.change = 0;
+		while (map[vars.line] != 0)
 		{
-			while (mapc[line][pos] != '\0' )
+			while (map[vars.line][vars.pos] != '\0' )
 			{
-				if (mapc[line][pos] == '2' || mapc[line][pos] == 'P')
-					fill(mapc, line, pos, &got, &end, &change);
+				if (map[vars.line][vars.pos] == '2' || map[vars.line][vars.pos] == 'P')
+					fill(map, vars.line, vars.pos, &vars.got, &vars.end, &vars.change);
 				pos ++;
 			}
-			line ++;	
-			pos = 1;
+			vars.line ++;	
+			vars.pos = 1;
 		}
-		line = 1;
-		pos = 1;
+		vars.line = 1;
 	}
-	if (end == 1 && got >= coll)
+	if (vars.end == 1 && vars.got >= coll)
 		return (0);
 	return (1);
 }
@@ -107,6 +99,8 @@ int	isequalsize(char **map, int fdlines,int *size)
 			return (0);
 		row ++;
 	}
+	if (size[0] < 4)
+		return(0);
 	return (1);
 }
 
@@ -124,61 +118,46 @@ int checkline(char *str, int isfirst, int *start, int *end, int *collect)
 		if (str[pos] != '\n')
 			return (1);
 	}
-	else
+	while (str[pos]!= '\n' && isfirst != 1)
 	{
-		while (str[pos]!= '\n')
-		{
-			if ( (pos == 0 || pos == (ft_strlen(str) - 2)) && str[pos]!= '1')
-				return (1);
-			if ( str[pos] == 'C')
-				collect[0] ++;
-			if ( str[pos] == 'E')
-				end[0] ++;
-			if ( str[pos] == 'P')
-				start[0] ++;
-			pos ++;
-		}
+		if ( (pos == 0 || pos == (ft_strlen(str) - 2)) && str[pos]!= '1')
+			return (1);
+		if ( str[pos] == 'C')
+			collect[0] ++;
+		if ( str[pos] == 'E')
+			end[0] ++;
+		if ( str[pos] == 'P')
+			start[0] ++;
+		pos ++;
 	}
 	return (0);
 }
 
 int	ismapvalid (char **map, int fdlines)
 {
-	
-	int star;
-	int	end;
-	int coll;
+	t_mapitems items;
 	int	row;
 	int	size;
 
-	star = 0;
-	end = 0;
-	coll = 0;
+	items.star = 0;
+	items.end = 0;
+	items.coll = 0;
 	row = 0;
 	size = 0;
-	if (fdlines < 4)
-		return (0);
 	if (isequalsize(map, fdlines, &size) == 0)
 		return (0);
-	if (size < 4)
-		return(0);
 	while (map[row] != 0)
 	{
 		if (row == 0 || row == (fdlines -2))
-		{
-			if (checkline ( map[row], 1, &star, &end, &coll) == 1)
+			if (checkline ( map[row], 1, &items.star, &items.end, &items.coll) == 1)
 				return (0);
-		}
-		else 
-		{
-			if (checkline ( map[row], 0, &star, &end, &coll) == 1)
+		else if (checkline ( map[row], 0, &items.star, &items.end, &items.coll) == 1)
 					return (0);
-		}
 		row ++;
 	}
-	if (star != 1 && coll < 1 && end != 1)
+	if (items.star != 1 && items.coll < 1 && items.end != 1)
 		return (0);
-	if (floodfill (map, coll) == 1)
+	if (floodfill (map, items.coll) == 1)
 		return (0);
 	return (1);
 }

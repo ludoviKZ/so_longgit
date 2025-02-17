@@ -61,7 +61,7 @@ int	movematr(t_vars	*vars, int y, int x, int ver, int side)
 	}
 	vars -> nmoves ++;
 	put_sprite(x, y, vars -> mlx, vars -> win, vars -> map[y][x]);
-	put_sprite(x + side, y + ver, vars -> mlx,
+	put_sprite(x + side, y + ver, vars -> mlx, 
 		vars -> win, vars -> map[y + ver][x + side]);
 	printf("%i\n%s%s%s", vars -> nmoves, vars -> map[0], vars -> map[1],vars -> map[2]);
 	return (0);

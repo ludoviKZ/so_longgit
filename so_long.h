@@ -21,6 +21,14 @@
 # define S 1
 # define D 2
 
+
+typedef struct	s_flood {
+	int got;
+	int change;
+	int pos;
+	int line;
+	int end;
+}				t_flood;
 typedef struct	s_data {
 	void	*img;
 	char	*addr;
