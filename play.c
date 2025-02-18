@@ -17,52 +17,50 @@
 
 int	move(t_vars	*vars, int ver, int side)
 {
-	int	x;
-	int	y;
+	t_coordinates	pos,
 
-	x = 0;
-	y = 0;
-	while (vars -> map[y] != 0 && vars -> map[y][x] != 'P'
-		&& vars -> map[y][x] != 'R')
+	pos.x = 0;
+	pos.y = 0;
+	while (vars -> map[pos.y] != 0 && vars -> map[pos.y][pos.x] != 'P'
+		&& vars -> map[pos.y][pos.x] != 'R')
 	{
-		y ++;
-		x = 0;
-		while (vars -> map[y][x] != '\0' && vars -> map[y][x] != 'P'
-			&& vars -> map[y][x] != 'R')
+		pos.y ++;
+		pos.x = 0;
+		while (vars -> map[pos.y][pos.x] != '\0' && vars -> map[pos.y][pos.x] != 'P'
+			&& vars -> map[pos.y][pos.x] != 'R')
 		{
-			x ++;
+			pos.x ++;
 		}
 	}
-	printf("%c%i%i", vars -> map[y][x], y, x);
-	movematr(vars, y, x, ver, side);
+	printf("%c%i%i", vars -> map[pos.y][pos.x], pos.y, pos.x);
+	movematr(vars, pos, ver, side);
 	return (0);
 }
 
-int	movematr(t_vars	*vars, int y, int x, int ver, int side)
+int	movematr(t_vars	*vars, t_coordinates	pos, int ver, int side)
 {
-	if (vars -> map[y + ver][x + side] == '1')
+	if (vars -> map[pos.y + ver][pos.x + side] == '1')
 		return (0);
-	else if (vars -> map[y + ver][x + side] == 'E')
+	else if (vars -> map[pos.y + ver][pos.x + side] == 'E')
 	{
-		vars -> map[y + ver][x + side] = 'R';
-		vars -> map[y][x] = '0';
+		vars -> map[pos.y + ver][pos.x + side] = 'R';
+		vars -> map[pos.y][pos.x] = '0';
 		if (iscomplete(vars) == 1)
 			closewin(1, vars);
 	}
-	else if (vars -> map[y][x] == 'P')
+	else if (vars -> map[pos.y][pos.x] == 'P')
 	{
-		vars -> map[y + ver][x + side] = 'P';
-		vars -> map[y][x] = '0';
+		vars -> map[pos.y + ver][pos.x + side] = 'P';
+		vars -> map[pos.y][pos.x] = '0';
 	}
-	else if (vars -> map[y][x] == 'R')
+	else if (vars -> map[pos.y][pos.x] == 'R')
 	{
-		vars -> map[y + ver][x + side] = 'P';
-		vars -> map[y][x] = 'E';
+		vars -> map[pos.y + ver][pos.x + side] = 'P';
+		vars -> map[pos.y][pos.x] = 'E';
 	}
 	vars -> nmoves ++;
-	put_sprite(x, y, vars -> mlx, vars -> win, vars -> map[y][x]);
-	put_sprite(x + side, y + ver, vars -> mlx, 
-		vars -> win, vars -> map[y + ver][x + side]);
+	put_sprite(pos.x, pos.y, vars, vars -> map[pos.y][pos.x]);
+	put_sprite(pos.x + side, pos.y + ver, vars, vars -> map[pos.y + ver][pos.x + side]);
 	printf("%i\n%s%s%s", vars -> nmoves, vars -> map[0], vars -> map[1],vars -> map[2]);
 	return (0);
 }

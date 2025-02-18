@@ -28,3 +28,24 @@ void	put_square(t_data *img,int x,int y, int color)
 	}
 	return ;
 }
+
+int	filelen(int fd)
+{
+	char	*str;
+	int		count;
+
+	count = 1;
+	while (count >= 0)
+	{
+		str = get_next_line(fd);
+		if (!str)
+		{
+			close (fd);
+			fd = open("map.txt", O_RDONLY);
+			return (count);
+		}
+		free (str);
+		count ++;
+	}
+	return (0);
+}

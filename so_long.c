@@ -15,26 +15,6 @@
 #include "get_next_line/get_next_line.h"
 #include "so_long.h"
 
-int	filelen(int fd)
-{
-	char	*str;
-	int		count;
-
-	count = 1;
-	while (count >= 0)
-	{
-		str = get_next_line(fd);
-		if (!str)
-		{
-			close (fd);
-			fd = open("map.txt", O_RDONLY);
-			return (count);
-		}
-		free (str);
-		count ++;
-	}
-	return (0);
-}
 
 char **readmap(int fd,int size)
 {
@@ -114,7 +94,7 @@ int main ()
 	vars.map = readmap(fd, vars.fdlines);
 	if (!vars.map)
 		return (0);
-	if (printmap (vars.mlx, vars.win, vars.map, vars.fdlines) == 0)
+	if (printmap (&vars, vars.map, vars.fdlines) == 0)
 	 	return (0);
 	mlx_key_hook(vars.win, key_hook, &vars);
 	mlx_loop(vars.mlx);

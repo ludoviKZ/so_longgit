@@ -86,7 +86,7 @@ int	isequalsize(char **map, int fdlines,int *size)
 	return (1);
 }
 
-int checkline(char *str, int isfirst, int *start, int *end, int *collect)
+int checkline(char *str, int isfirst, t_mapitems *items)
 {
 	int	pos;
 
@@ -105,11 +105,11 @@ int checkline(char *str, int isfirst, int *start, int *end, int *collect)
 		if ( (pos == 0 || pos == (ft_strlen(str) - 2)) && str[pos]!= '1')
 			return (1);
 		if ( str[pos] == 'C')
-			collect[0] ++;
+			items->collect ++;
 		if ( str[pos] == 'E')
-			end[0] ++;
+			items->end ++;
 		if ( str[pos] == 'P')
-			start[0] ++;
+			items->start ++;
 		pos ++;
 	}
 	return (0);
@@ -131,7 +131,7 @@ int	ismapvalid (char **map, int fdlines)
 	while (map[row] != 0)
 	{
 		if (row == 0 || row == (fdlines -2))
-			if (checkline ( map[row], 1, &items.star, &items.end, &items.coll) == 1)
+			if (checkline ( map[row], 1, &items) == 1)
 				return (0);
 		if (row != 0 && row != (fdlines -2) && checkline ( map[row], 0, &items.star, &items.end, &items.coll) == 1)
 			return (0);

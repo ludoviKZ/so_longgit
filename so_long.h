@@ -17,7 +17,10 @@
 
 # define WALL "wall.xpm"
 
-
+typedef struct s_coordinate{
+	int x;
+	int y;
+}				t_coordinates
 typedef struct	s_flood {
 	int got;
 	int change;
@@ -54,20 +57,22 @@ typedef struct	s_sprites {
 	int		endian;
 }				t_sprites;
 
+
+int	filelen(int fd);
 int flood (char **mapc,t_flood *vars, int y, int x);
 int iscomplete(t_vars	*vars);
 int move(t_vars	*vars,int ver,int side);
-int movematr(t_vars	*vars,int y,int x,int ver,int side);
+int	movematr(t_vars	*vars, t_coordinates	pos, int ver, int side);
 void	put_square(t_data *img,int x,int y, int color);
 void	fast_pixel_put(t_data *data, int x, int y, int color);
 int	closewin(int keycode, t_vars *vars);
 int 	key_hook(int code, t_vars *mlxwin);
-int put_sprite(int pos, int row, void *mlx, void *mlx_win, char spritechar);
-int	printmap(void *mlx, void *mlx_win, char **map,int fdlines);
+int put_sprite(int x, int y, t_vars	*vars, char spritechar);
+int	printmap(t_vars	*vars, char **map, int fdlines);
 int fill (char **map,t_flood *vars);
 int floodfill (char **map, int coll);
 int	isequalsize(char **map, int fdlines, int *size);
-int checkline(char *str, int isfirst, int *start, int *end, int *collect);
+int checkline(char *str, int isfirst, t_mapitems *items);
 int	ismapvalid (char **map, int fdlines);
 void	put_square(t_data *img,int x,int y, int color);
 #endif

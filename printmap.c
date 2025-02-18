@@ -3,45 +3,44 @@
 #include "minilibx/mlx.h"
 #include "get_next_line/get_next_line.h"
 #include "so_long.h"
-int put_sprite(int pos, int row, void *mlx, void *mlx_win, char spritechar)
+int put_sprite(int x, int y,t_vars	*vars, char spritechar)
 {
 	int		stupid;
 	int		stupid2;
 	t_data	sprite;
 
 	if (spritechar == '1')
-		sprite.img = mlx_xpm_file_to_image(mlx, WALL, &stupid, &stupid2);
+		sprite.img = mlx_xpm_file_to_image(vars->mlx, WALL, &stupid, &stupid2);
 	else if (spritechar == '0')
-		sprite.img = mlx_xpm_file_to_image(mlx, "floor.xpm", &stupid, &stupid2);
+		sprite.img = mlx_xpm_file_to_image(vars->mlx, "floor.xpm", &stupid, &stupid2);
 	else if (spritechar == 'E')
-		sprite.img = mlx_xpm_file_to_image(mlx, "exit.xpm", &stupid, &stupid2);
+		sprite.img = mlx_xpm_file_to_image(vars->mlx, "exit.xpm", &stupid, &stupid2);
 	else if (spritechar == 'P' || spritechar == 'R')
-		sprite.img = mlx_xpm_file_to_image(mlx, "character.xpm", &stupid, &stupid2);
+		sprite.img = mlx_xpm_file_to_image(vars->mlx, "character.xpm", &stupid, &stupid2);
 	else if (spritechar == 'C')
-		sprite.img = mlx_xpm_file_to_image(mlx, "collect.xpm", &stupid, &stupid2);
-	mlx_put_image_to_window(mlx, mlx_win, sprite.img, (pos * 16), (row * 16));
-	mlx_destroy_image(mlx, sprite.img);
+		sprite.img = mlx_xpm_file_to_image(vars->mlx, "collect.xpm", &stupid, &stupid2);
+	mlx_put_image_to_window(vars->mlx, vars->win, sprite.img, (x * 16), (y * 16));
+	mlx_destroy_image(vars->mlx, sprite.img);
 	return (0);
 }
 
-int	printmap(void *mlx, void *mlx_win, char **map,int fdlines)
+int	printmap(t_vars	*vars, char **map, int fdlines)
 {
-	int	pos;
-	int	row;
+	t_coordinates	pos;
 
-	pos = 0;
-	row = 0;
+	pos.x = 0;
+	pos.y = 0;
 
-	while (row != fdlines -1)
+	while (pos.y != fdlines -1)
 	{
-		while (pos != ft_strlen(map[row]) -1)
+		while (pos.x != ft_strlen(map[pos.y]) -1)
 		{
-			if (put_sprite(pos, row, mlx, mlx_win, map[row][pos]) == 1)
+			if (put_sprite(pos.x, pos.y, vars, map[pos.y][pos.x]) == 1)
 				return (0);
-			pos++;
+			pos.x++;
 		}
-		pos = 0;
-		row++;
+		pos.x = 0;
+		pos.y++;
 	}
 	return (1);
 }
