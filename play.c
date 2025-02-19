@@ -6,18 +6,19 @@
 /*   By: lzorzit <lzorzit@student.42firenze.it>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/16 19:22:14 by lzorzit           #+#    #+#             */
-/*   Updated: 2025/02/17 18:46:55 by lzorzit          ###   ########.fr       */
+/*   Updated: 2025/02/19 16:09:11 by lzorzit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft/libft.h"
 #include "minilibx/mlx.h"
 #include "get_next_line/get_next_line.h"
+#include "ft_printf/ft_printf.h"
 #include "so_long.h"
 
 int	move(t_vars	*vars, int ver, int side)
 {
-	t_coordinates	pos,
+	t_coordinates	pos;
 
 	pos.x = 0;
 	pos.y = 0;
@@ -26,13 +27,12 @@ int	move(t_vars	*vars, int ver, int side)
 	{
 		pos.y ++;
 		pos.x = 0;
-		while (vars -> map[pos.y][pos.x] != '\0' && vars -> map[pos.y][pos.x] != 'P'
-			&& vars -> map[pos.y][pos.x] != 'R')
+		while (vars -> map[pos.y][pos.x] != '\0' &&
+			vars->map[pos.y][pos.x] != 'P' && vars->map[pos.y][pos.x] != 'R')
 		{
 			pos.x ++;
 		}
 	}
-	printf("%c%i%i", vars -> map[pos.y][pos.x], pos.y, pos.x);
 	movematr(vars, pos, ver, side);
 	return (0);
 }
@@ -46,7 +46,7 @@ int	movematr(t_vars	*vars, t_coordinates	pos, int ver, int side)
 		vars -> map[pos.y + ver][pos.x + side] = 'R';
 		vars -> map[pos.y][pos.x] = '0';
 		if (iscomplete(vars) == 1)
-			closewin(1, vars);
+			closewin(1, vars, "you win!");
 	}
 	else if (vars -> map[pos.y][pos.x] == 'P')
 	{
@@ -60,8 +60,9 @@ int	movematr(t_vars	*vars, t_coordinates	pos, int ver, int side)
 	}
 	vars -> nmoves ++;
 	put_sprite(pos.x, pos.y, vars, vars -> map[pos.y][pos.x]);
-	put_sprite(pos.x + side, pos.y + ver, vars, vars -> map[pos.y + ver][pos.x + side]);
-	printf("%i\n%s%s%s", vars -> nmoves, vars -> map[0], vars -> map[1],vars -> map[2]);
+	put_sprite(pos.x + side, pos.y + ver, vars,
+		vars -> map[pos.y + ver][pos.x + side]);
+	ft_printf("%i\n", vars -> nmoves);
 	return (0);
 }
 

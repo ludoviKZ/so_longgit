@@ -6,60 +6,62 @@
 /*   By: lzorzit <lzorzit@student.42firenze.it>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 16:49:54 by lzorzit           #+#    #+#             */
-/*   Updated: 2025/02/17 16:33:47 by lzorzit          ###   ########.fr       */
+/*   Updated: 2025/02/19 16:51:49 by lzorzit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft/libft.h"
 #include "minilibx/mlx.h"
 #include "get_next_line/get_next_line.h"
+#include "ft_printf/ft_printf.h"
 #include "so_long.h"
 
-int flood (char **mapc,t_flood *vars, int y, int x)
+int	flood(char **mapc, t_flood *vars, int y, int x)
 {
-	if ( mapc[vars ->line + y][vars -> pos + x] == 'C')
-	vars ->got ++;
-	if ( mapc[vars ->line + y][vars -> pos + x] == 'E')
+	if (mapc[vars ->line + y][vars -> pos + x] == 'C')
+		vars ->got ++;
+	if (mapc[vars ->line + y][vars -> pos + x] == 'E')
 		vars ->end ++;
 	mapc[vars -> line + y][vars -> pos + x] = '2';
-	vars -> change ++;
+	vars -> change = 1;
 	return (0);
 }
 
-int fill (char **mapc,t_flood *vars)
+int	fill(char **mapc, t_flood *vars)
 {
-	vars -> change = 0;
-	if (mapc[vars ->line][vars ->pos + 1] == '0' || mapc[vars ->line][vars ->pos + 1] == 'C' ||  mapc[vars ->line][vars ->pos + 1] == 'E' )
+	if (mapc[vars ->line][vars ->pos + 1] == '0' || mapc[vars ->line]
+		[vars ->pos + 1] == 'C' || mapc[vars ->line][vars ->pos + 1] == 'E' )
 		flood (mapc, vars, 0, 1);
-	if (mapc[vars -> line][vars -> pos - 1] == '0' || mapc[vars ->line][vars -> pos - 1] == 'C' ||  mapc[vars ->line][vars -> pos - 1] == 'E' )
+	if (mapc[vars -> line][vars -> pos - 1] == '0' || mapc[vars ->line]
+		[vars -> pos - 1] == 'C' || mapc[vars ->line][vars -> pos - 1] == 'E' )
 		flood (mapc, vars, 0, -1);
-	if (mapc[vars ->line + 1][vars -> pos] == '0' || mapc[vars ->line + 1][vars -> pos] == 'C' ||  mapc[vars ->line + 1][vars -> pos ] == 'E' )
+	if (mapc[vars ->line + 1][vars -> pos] == '0' || mapc[vars ->line + 1]
+		[vars -> pos] == 'C' || mapc[vars ->line + 1][vars -> pos] == 'E' )
 		flood (mapc, vars, 1, 0);
-	if (mapc[vars ->line - 1][vars -> pos] == '0' || mapc[vars ->line - 1][vars -> pos] == 'C' ||  mapc[vars ->line - 1][vars -> pos ] == 'E' )
+	if (mapc[vars ->line - 1][vars -> pos] == '0' || mapc[vars ->line - 1]
+		[vars -> pos] == 'C' || mapc[vars ->line - 1][vars -> pos] == 'E' )
 		flood (mapc, vars, -1, 0);
 	return (0);
 }
 
-int floodfill (char **map, int coll)
+int	floodfill(char **map, int coll)
 {
-	t_flood vars;
-	vars.got = 0;
-	vars.end = 0;
-	vars.change = 1;
-	vars.line = 1;
-	vars.pos = 1;
-	while (vars.change != 0)
+	t_flood	vars;
+
+	asignflood(&vars);
+	while (vars.change == 1)
 	{
 		vars.change = 0;
 		while (map[vars.line] != 0)
 		{
 			while (map[vars.line][vars.pos] != '\0' )
 			{
-				if (map[vars.line][vars.pos] == '2' || map[vars.line][vars.pos] == 'P')
+				if (map[vars.line][vars.pos] == '2' ||
+					map[vars.line][vars.pos] == 'P')
 					fill(map, &vars);
 				vars.pos ++;
 			}
-			vars.line ++;	
+			vars.line ++;
 			vars.pos = 1;
 		}
 		vars.line = 1;
@@ -69,73 +71,56 @@ int floodfill (char **map, int coll)
 	return (1);
 }
 
-int	isequalsize(char **map, int fdlines,int *size)
-{
-	int	row;
-	
-	row = 0;
-	size[0] = ft_strlen ( map[row]);
-	while (row != (fdlines - 1))
-	{
-		if (size[0] != ft_strlen( map[row]))
-			return (0);
-		row ++;
-	}
-	if (size[0] < 4)
-		return(0);
-	return (1);
-}
-
-int checkline(char *str, int isfirst, t_mapitems *items)
+int	checkline(char *str, int isfirst, t_mapitems *items)
 {
 	int	pos;
 
 	pos = 0;
 	if (isfirst == 1)
 	{
-		while (str[pos]== '1')
+		while (str[pos] == '1')
 		{
 			pos ++;
 		}
 		if (str[pos] != '\n')
 			return (1);
 	}
-	while (str[pos]!= '\n' && isfirst != 1)
+	while (str[pos] != '\n' && isfirst != 1)
 	{
-		if ( (pos == 0 || pos == (ft_strlen(str) - 2)) && str[pos]!= '1')
+		if ((pos == 0 || pos == (ft_strlen(str) - 2)) && str[pos] != '1')
 			return (1);
-		if ( str[pos] == 'C')
-			items->collect ++;
-		if ( str[pos] == 'E')
+		if (str[pos] == 'C')
+			items->coll ++;
+		if (str[pos] == 'E')
 			items->end ++;
-		if ( str[pos] == 'P')
-			items->start ++;
+		if (str[pos] == 'P')
+			items->star ++;
 		pos ++;
 	}
 	return (0);
 }
 
-int	ismapvalid (char **map, int fdlines)
+int	ismapvalid(char **map, int fdlines)
 {
-	t_mapitems items;
-	int	row;
-	int	size;
+	t_mapitems		items;
+	t_coordinates	pos;
 
 	items.star = 0;
 	items.end = 0;
 	items.coll = 0;
-	row = 0;
-	size = 0;
-	if (isequalsize(map, fdlines, &size) == 0)
+	pos.y = 0;
+	pos.x = 0;
+	if (isequalsize(map, fdlines, &pos.x) == 0)
 		return (0);
-	while (map[row] != 0)
+	while (map[pos.y] != 0)
 	{
-		if (row == 0 || row == (fdlines -2))
-			if (checkline ( map[row], 1, &items) == 1)
+		if (pos.y == 0 || pos.y == (fdlines -2))
+			if (checkline (map[pos.y], 1, &items) == 1)
 				return (0);
-		if (row != 0 && row != (fdlines -2) && checkline ( map[row], 0, &items.star, &items.end, &items.coll) == 1)
+		if (pos.y != 0 && pos.y != (fdlines -2)
+			&& checkline(map[pos.y], 0, &items) == 1)
 			return (0);
-		row ++;
+		pos.y ++;
 	}
 	if (items.star != 1 && items.coll < 1 && items.end != 1)
 		return (0);
@@ -143,4 +128,3 @@ int	ismapvalid (char **map, int fdlines)
 		return (0);
 	return (1);
 }
-
