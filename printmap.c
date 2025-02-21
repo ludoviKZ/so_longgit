@@ -12,7 +12,6 @@
 
 #include "libft/libft.h"
 #include "minilibx/mlx.h"
-#include "get_next_line/get_next_line.h"
 #include "so_long.h"
 
 int	put_sprite(int x, int y, t_vars	*vars, char spritechar)

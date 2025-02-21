@@ -6,41 +6,19 @@
 /*   By: lzorzit <lzorzit@student.42firenze.it>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 16:10:17 by lzorzit           #+#    #+#             */
-/*   Updated: 2025/02/19 16:12:08 by lzorzit          ###   ########.fr       */
+/*   Updated: 2025/02/21 19:49:44 by lzorzit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft/libft.h"
 #include "minilibx/mlx.h"
-#include "get_next_line/get_next_line.h"
 #include "so_long.h"
 
-void	fast_pixel_put(t_data *data, int x, int y, int color)
+int		isvalidchar(char i)
 {
-	char	*dst;
-
-	dst = data->addr + (y * data->line_length + x * (data->bits_per_pixel / 8));
-	*(unsigned int *)dst = color;
-}
-
-void	put_square(t_data *img, int x, int y, int color)
-{
-	int		sqrx;
-	int		sqry;
-
-	sqrx = 0;
-	sqry = 0;
-	while (sqrx != x)
-	{
-		while (sqry != y)
-		{
-			fast_pixel_put (img, sqrx, sqry, color);
-			sqry ++;
-		}
-		sqrx ++;
-		sqry = 0;
-	}
-	return ;
+	if (i != 'E' && i != 'C' && i != 'P' && i != '1' && i != '0')
+		return (1);
+	return (0);
 }
 
 void	asignflood(t_flood	*vars)
@@ -53,7 +31,7 @@ void	asignflood(t_flood	*vars)
 	return ;
 }
 
-int	filelen(int fd)
+int	filelen(int fd, char *file, int *column)
 {
 	char	*str;
 	int		count;
@@ -62,15 +40,23 @@ int	filelen(int fd)
 	while (count >= 0)
 	{
 		str = get_next_line(fd);
+		if (column[0] == 1)
+			column[0] = ft_strlen(str);
 		if (!str)
 		{
 			close (fd);
-			fd = open("map.txt", O_RDONLY);
+			fd = open(file, O_RDONLY);
 			return (count);
 		}
 		free (str);
 		count ++;
 	}
+	return (0);
+}
+
+int	x_close(t_vars *vars)
+{
+	closewin(1, vars, "error\nwindowclosed");
 	return (0);
 }
 

@@ -6,16 +6,23 @@
 /*   By: lzorzit <lzorzit@student.42firenze.it>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 16:43:11 by lzorzit           #+#    #+#             */
-/*   Updated: 2024/07/16 17:16:05 by lzorzit          ###   ########.fr       */
+/*   Updated: 2025/02/21 17:06:49 by lzorzit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LIBFT_H
 # define LIBFT_H
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 1
+# endif
 # include <stddef.h>
 # include <stdlib.h>
 # include <unistd.h>
 # include <stdio.h>
+# include <stdint.h>
+# include <stdarg.h>
+# include <sys/types.h>
+# include <sys/uio.h>
 
 typedef struct s_list
 {
@@ -66,7 +73,26 @@ void			ft_lstiter(t_list *lst, void (*f)(void *));
 t_list			*ft_lstnew(void *content);
 t_list			*ft_lstlast(t_list *lst);
 t_list			*ft_lstmap(t_list *lst, void *(*f)(void *),
-					void (*del)(void *));
+					void (*del)(void *));				
+int				ft_countpnt(unsigned long n);
+int				ft_printf(const char *par, ...);
+int				ft_putex(unsigned int n, int form);
+int				ft_putnbr(int n);
+int				ft_putnbruns(unsigned int n);
+int				ft_putpoint(uintptr_t arg);
+int				sort(va_list arg, const char par);
+int				ft_putchar(int c);
+int				ft_putstr(char *s);				
 
+char			*ft_strjoingnx(char *s1, char *s2);
+void			*ft_malloclen(size_t val1, size_t val2);
+int				ft_strchrgnx( const char *s, int c);
+int				ft_strlengnx(const char *str);
+char			*nextlin(char *line);
+char			*cpyret(char *line);
+char			*readfil(int fd, char *line);
+char			*get_next_line(int fd);
+void			ft_bzero(void *s, size_t n);
+int				readerror(int i, char *line, char *prtread);
 
 #endif

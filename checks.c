@@ -6,14 +6,12 @@
 /*   By: lzorzit <lzorzit@student.42firenze.it>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 16:49:54 by lzorzit           #+#    #+#             */
-/*   Updated: 2025/02/19 16:51:49 by lzorzit          ###   ########.fr       */
+/*   Updated: 2025/02/21 19:36:06 by lzorzit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft/libft.h"
 #include "minilibx/mlx.h"
-#include "get_next_line/get_next_line.h"
-#include "ft_printf/ft_printf.h"
 #include "so_long.h"
 
 int	flood(char **mapc, t_flood *vars, int y, int x)
@@ -79,14 +77,14 @@ int	checkline(char *str, int isfirst, t_mapitems *items)
 	if (isfirst == 1)
 	{
 		while (str[pos] == '1')
-		{
 			pos ++;
-		}
 		if (str[pos] != '\n')
 			return (1);
 	}
 	while (str[pos] != '\n' && isfirst != 1)
 	{
+		if (isvalidchar(str[pos]) == 1)
+			return(1);
 		if ((pos == 0 || pos == (ft_strlen(str) - 2)) && str[pos] != '1')
 			return (1);
 		if (str[pos] == 'C')
@@ -122,7 +120,7 @@ int	ismapvalid(char **map, int fdlines)
 			return (0);
 		pos.y ++;
 	}
-	if (items.star != 1 && items.coll < 1 && items.end != 1)
+	if (items.star != 1 || items.coll < 1 || items.end != 1)
 		return (0);
 	if (floodfill (map, items.coll) == 1)
 		return (0);
