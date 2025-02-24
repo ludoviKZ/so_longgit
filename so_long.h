@@ -6,7 +6,7 @@
 /*   By: lzorzit <lzorzit@student.42firenze.it>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 16:58:09 by lzorzit           #+#    #+#             */
-/*   Updated: 2025/02/21 19:48:44 by lzorzit          ###   ########.fr       */
+/*   Updated: 2025/02/24 17:12:58 by lzorzit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ int		isvalidchar(char i);
 int		x_close(t_vars *vars);
 void	asignvars(t_vars *vars, char *str);
 void	asignflood(t_flood	*vars);
-int	filelen(int fd, char *file, int *column);
+int		filelen(int fd, char *file, int *column);
 int		flood(char **mapc, t_flood *vars, int y, int x);
 int		iscomplete(t_vars	*vars);
 int		move(t_vars	*vars, int ver, int side);

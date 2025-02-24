@@ -6,15 +6,15 @@
 /*   By: lzorzit <lzorzit@student.42firenze.it>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 16:10:17 by lzorzit           #+#    #+#             */
-/*   Updated: 2025/02/21 19:49:44 by lzorzit          ###   ########.fr       */
+/*   Updated: 2025/02/24 18:55:28 by lzorzit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft/libft.h"
+#include "libfta/libft.h"
 #include "minilibx/mlx.h"
 #include "so_long.h"
 
-int		isvalidchar(char i)
+int	isvalidchar(char i)
 {
 	if (i != 'E' && i != 'C' && i != 'P' && i != '1' && i != '0')
 		return (1);
@@ -40,7 +40,7 @@ int	filelen(int fd, char *file, int *column)
 	while (count >= 0)
 	{
 		str = get_next_line(fd);
-		if (column[0] == 1)
+		if (column[0] == 1 && str)
 			column[0] = ft_strlen(str);
 		if (!str)
 		{
@@ -66,13 +66,13 @@ int	isequalsize(char **map, int fdlines, int *size)
 
 	row = 0;
 	size[0] = ft_strlen (map[row]);
+	if (size[0] < 4)
+		return (0);
 	while (row != (fdlines - 1))
 	{
 		if (size[0] != ft_strlen(map[row]))
 			return (0);
 		row ++;
 	}
-	if (size[0] < 4)
-		return (0);
 	return (1);
 }

@@ -6,11 +6,11 @@
 /*   By: lzorzit <lzorzit@student.42firenze.it>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 16:49:54 by lzorzit           #+#    #+#             */
-/*   Updated: 2025/02/21 19:36:06 by lzorzit          ###   ########.fr       */
+/*   Updated: 2025/02/24 18:55:45 by lzorzit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft/libft.h"
+#include "libfta/libft.h"
 #include "minilibx/mlx.h"
 #include "so_long.h"
 
@@ -78,13 +78,13 @@ int	checkline(char *str, int isfirst, t_mapitems *items)
 	{
 		while (str[pos] == '1')
 			pos ++;
-		if (str[pos] != '\n')
+		if (str[pos] != '\n' && str[pos] != '\0')
 			return (1);
 	}
 	while (str[pos] != '\n' && isfirst != 1)
 	{
 		if (isvalidchar(str[pos]) == 1)
-			return(1);
+			return (1);
 		if ((pos == 0 || pos == (ft_strlen(str) - 2)) && str[pos] != '1')
 			return (1);
 		if (str[pos] == 'C')

@@ -3,7 +3,7 @@ OBJ = $(FILES:.c=.o)
 NAME = so_long
 MLX_PATH = minilibx/
 MLX_LIB = $(MLX_PATH)libmlx.a
-LIBFT_PATH = libft/
+LIBFT_PATH = libfta/
 LIBFT_LIB = $(LIBFT_PATH)libft.a
 CFLAGS = -Wall -Wextra -Werror -g
 MLX_FLAGS = -lX11 -lXext -Lminilibx -lmlx 

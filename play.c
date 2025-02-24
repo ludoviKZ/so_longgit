@@ -6,11 +6,11 @@
 /*   By: lzorzit <lzorzit@student.42firenze.it>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/16 19:22:14 by lzorzit           #+#    #+#             */
-/*   Updated: 2025/02/21 19:50:55 by lzorzit          ###   ########.fr       */
+/*   Updated: 2025/02/24 18:55:42 by lzorzit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft/libft.h"
+#include "libfta/libft.h"
 #include "minilibx/mlx.h"
 #include "so_long.h"
 
@@ -20,10 +20,15 @@ void	asignvars(t_vars *vars, char *str)
 	vars->mlx = mlx_init();
 	vars->column = 1;
 	vars->fd = open(str, O_RDONLY);
-	vars->fdlines = filelen(vars->fd, str, &vars -> column);
-	vars->win = mlx_new_window(vars->mlx, (vars->column * 16 +1), (vars->fdlines * 16 +1), "gaming");
+	if (vars->fd != -1)
+		vars->fdlines = filelen(vars->fd, str, &vars -> column);
+	else
+		vars->fdlines = -1;
+	vars->win = mlx_new_window(vars->mlx, (vars->column * 16 +1),
+			(vars->fdlines * 16 +1), "gaming");
 	return ;
 }
+
 int	move(t_vars	*vars, int ver, int side)
 {
 	t_coordinates	pos;
